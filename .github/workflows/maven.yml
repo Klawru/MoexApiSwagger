@@ -22,7 +22,8 @@ jobs:
         java-version: 14
     - name: Build with Maven
       run: mvn -B package --file pom.xml -Dmaven.test.skip=true
+    - run: mkdir staging && cp target/classes/META-INF/swagger/*.yml staging
     - uses: actions/upload-artifact@v2
       with:
         name: Moex OpenApi
-        path: target\classes\META-INF\swagger\*.yml
+        path: staging
