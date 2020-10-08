@@ -21,7 +21,7 @@ jobs:
       with:
         java-version: 14
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -Dmaven.test.skip=true
     - uses: actions/upload-artifact@v2
       with:
         name: Moex OpenApi
