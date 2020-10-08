@@ -1,0 +1,7 @@
+micronaut:
+  application:
+    name: moexApi
+  http:
+    services:
+      moex:
+        url: https://iss.moex.com/iss/
