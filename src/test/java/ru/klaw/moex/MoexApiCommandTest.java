@@ -1,28 +1,24 @@
 package ru.klaw.moex;
 
-import io.micronaut.configuration.picocli.PicocliRunner;
-import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.env.Environment;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.reactivex.Maybe;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import ru.klaw.moex.types.response1.Response1;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import javax.inject.Inject;
 
+@MicronautTest
+@Slf4j
 public class MoexApiCommandTest {
+    @Inject
+    @Client("moex")
+    MoexApi client;
 
     @Test
-    public void testWithCommandLineOption() throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(baos));
-
-        try (ApplicationContext ctx = ApplicationContext.run(Environment.CLI, Environment.TEST)) {
-            String[] args = new String[] { "-v" };
-            PicocliRunner.run(MoexApiCommand.class, ctx, args);
-
-            // moexApi
-            assertTrue(baos.toString().contains("Hi!"));
-        }
+    public void example() {
+        final Maybe<Response1> maybe = client.get1("SBER", 0);
+        log.info(maybe.blockingGet().toString());
     }
 }
